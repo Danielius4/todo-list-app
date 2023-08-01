@@ -1,5 +1,9 @@
 import React from 'react';
 import { Todo } from '../types';
+import ListItem from '@mui/material/ListItem';
+import DeleteIcon from '@mui/icons-material/Delete';
+import IconButton from '@mui/material/IconButton';
+import TextField from '@mui/material/TextField';
 
 interface TodoItemProps {
   todo: Todo;
@@ -14,15 +18,32 @@ export const TodoItem: React.FC<TodoItemProps> = ({ todo, handleToggle, handleDe
     handleToggle(todo);
   }
 
+  const handleDeleteClick = (e: any) => {
+    e.stopPropagation(); // Prevent the event from propagating to the parent ListItem
+    handleDelete(todo.id);
+  };
+
   return (
-    <div>
-      <input
-        type="checkbox"
-        checked={todo.completed}
-        onChange={changeCompletion}
-      />
-      {todo.content}
-      <button type="button" onClick={() => handleDelete(todo.id)}>Delete</button>
-    </div>
+    <ListItem
+      button
+      style={{ textDecoration: todo.completed ? 'line-through' : 'none'}}
+      secondaryAction={
+        <IconButton aria-label="delete" onClick={handleDeleteClick}>
+          <DeleteIcon />
+        </IconButton>
+      }
+      onClick={() => changeCompletion()}
+    >
+      <TextField
+          variant="standard"
+          value={todo.content}
+          fullWidth
+          margin="normal"
+          size="medium"
+          InputProps={{
+            readOnly: true,
+          }}
+        />
+    </ListItem>
   )
 }

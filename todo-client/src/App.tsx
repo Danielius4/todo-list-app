@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
 import TodoForm from './components/TodoForm';
-import { Todo } from './types';
+import { Todo, ApiUrl} from './types';
 import { TodoList } from './components/TodoList';
 import axios from 'axios';
 
@@ -15,7 +15,7 @@ function App() {
 
   const fetchData = async () => {
     try{
-      const response = await axios.get<Todo[]>('http://localhost:8080/api/tasks');
+      const response = await axios.get<Todo[]>(ApiUrl);
       setTodos(response.data);
     } catch (error){
 

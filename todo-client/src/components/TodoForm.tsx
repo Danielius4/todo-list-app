@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
-import { Todo } from '../types'
+import { ApiUrl, Todo } from '../types'
 import axios from 'axios';
+import Container from '@mui/material/Container';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 
 interface TodoFormProps {
   todos: Todo[];
@@ -18,7 +21,7 @@ export const TodoForm: React.FC<TodoFormProps> = ({ todos, setTodos}) => {
         return;
       }
       const response = await axios.post(
-        `http://localhost:8080/api/tasks`, todo)
+        ApiUrl, todo)
     
       setTodos([response.data, ...todos]);
       setTodo({id: response.data.id + 1, content: '', completed: false})
@@ -28,12 +31,22 @@ export const TodoForm: React.FC<TodoFormProps> = ({ todos, setTodos}) => {
   }
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <input type="text" value={todo.content} onChange={(e) => setTodo({...todo, content: e.target.value})} />
-        <button type="submit">Add Todo</button>
+    <Container sx={{ width: '35%', maxWidth: 360, bgcolor: 'background.paper' }}>
+      <form onSubmit={handleSubmit} style={{ display: 'flex', alignItems: 'center' }}>
+        <TextField
+          label="Todo"
+          variant="outlined"
+          value={todo.content}
+          onChange={(e) => setTodo({ ...todo, content: e.target.value })}
+          fullWidth
+          margin="normal"
+          size="medium"
+        />
+        <Button variant="outlined" type="submit" size="small" style={{marginTop: '5px', marginLeft: '10px'}}>
+          Add Todo
+        </Button>
       </form>
-    </div>
+    </Container>
   )
 }
 

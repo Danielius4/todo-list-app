@@ -8,3 +8,5 @@ export type Todo = {
 
 export type ToggleComplete = (selectedTodo: Todo) => void;
 
+export const ApiUrl: string = 'http://localhost:8080/api/tasks'
+
