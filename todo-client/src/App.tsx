@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
 import TodoForm from './components/TodoForm';
-import { Todo, ApiUrl} from './types';
+import { Todo } from './types';
 import { TodoList } from './components/TodoList';
-import axios from 'axios';
+import { getTodos } from './Api';
 
 function App() {
   
@@ -15,7 +15,7 @@ function App() {
 
   const fetchData = async () => {
     try{
-      const response = await axios.get<Todo[]>(ApiUrl);
+      const response = await getTodos();
       setTodos(response.data);
     } catch (error){
 

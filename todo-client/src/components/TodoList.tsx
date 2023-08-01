@@ -1,8 +1,8 @@
 import React, { useEffect, useReducer, useState } from 'react';
-import { TodoItem } from './TodoItem'
-import { Todo, ApiUrl} from '../types';
-import axios from 'axios';
+import { TodoItem } from './TodoItem';
+import { Todo } from '../types';
 import Container from '@mui/material/Container';
+import { deleteTodo, putTodo } from '../Api';
 
 interface TodoListProps {
   todos: Todo[];
@@ -20,17 +20,16 @@ export const TodoList: React.FC<TodoListProps> = ({ todos, setTodos }) => {
 
   const handleDelete = async (id: number) => {
     try{
-      await axios.delete(`${ApiUrl}/${id}`);
+      deleteTodo(id);
       setTodos(todos.filter((todo) => todo.id !== id));
     } catch (error){
-
     }
     
   };
 
   const handleCompletionToggle = async (todo: Todo) => {
     try{
-      const response = await axios.put(`${ApiUrl}/${todo.id}`, todo);
+      const response = await putTodo(todo);
       if(response.status === 200){
         forceUpdate();
       }

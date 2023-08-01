@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
-import { ApiUrl, Todo } from '../types'
-import axios from 'axios';
+import React, { useState } from 'react';
+import { Todo } from '../types';
 import Container from '@mui/material/Container';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import { postTodo } from '../Api';
 
 interface TodoFormProps {
   todos: Todo[];
@@ -20,8 +20,7 @@ export const TodoForm: React.FC<TodoFormProps> = ({ todos, setTodos}) => {
       if(!todo.content || /^\s*$/.test(todo.content)){
         return;
       }
-      const response = await axios.post(
-        ApiUrl, todo)
+      const response = await postTodo(todo);
     
       setTodos([response.data, ...todos]);
       setTodo({id: response.data.id + 1, content: '', completed: false})
