@@ -21,18 +21,16 @@ public class TaskService {
 
     public ResponseEntity<Iterable<Task>> getAllTasks() {
         try {
-            List<Task> tasks = this.taskRepository.findAll();
+            List<Task> tasks = this.taskRepository.findAllByOrderByIdDesc();
             if (tasks.isEmpty()) {
                 return new ResponseEntity(HttpStatus.NO_CONTENT);
             } else {
-                Collections.reverse(tasks);
                 return new ResponseEntity(tasks, HttpStatus.OK);
             }
         } catch (Exception e) {
             return new ResponseEntity(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
     public ResponseEntity<Task> addTask(@RequestBody Task task) {
         try {
             if(task.getContent() == "")
